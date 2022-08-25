@@ -1,12 +1,44 @@
 <template>
   <div id="app">
-    <nav>
+    <!--<nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    </nav>-->
+    <sidebar-menu :menu="menu" />
+    <router-view />
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      menu: [
+        {
+          header: true,
+          title: "Main Navigation",
+          hiddenOnCollapse: true,
+        },
+        {
+          href: "/",
+          title: "Dashboard",
+          icon: "fa fa-user",
+        },
+        {
+          href: "/charts",
+          title: "Charts",
+          icon: "fa fa-chart-area",
+          child: [
+            {
+              href: "/charts/sublink",
+              title: "Sub Link",
+            },
+          ],
+        },
+      ],
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
