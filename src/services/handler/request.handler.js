@@ -9,14 +9,10 @@ const handleErrorResponse = {
 export const postRequestHandler = async (url, data, headers = {}) => {
   return await axios.post(url, data, headers)
     .then(response => {
-      if (response.data.status === 401) {
-        userService.logout();
-      }
-      
-
-      return response;
+      console.log(response);
     })
     .catch(error => {
+      console.log(error);
       return handleErrorResponse;
     });
 
@@ -25,24 +21,10 @@ export const postRequestHandler = async (url, data, headers = {}) => {
 export const getRequestHandler = async (url, headers = {}) => {
   return await axios.get(url, headers)
     .then(response => {
-      if (response.data.status === 401) {
-        userService.logout();
-      }
-      
-
-      return response;
+      console.log(response);
 
     }).catch(error => {
-      return handleErrorResponse;
-    });
-};
-
-
-export const paginationRequestHandler = async (navigationHttpMethod, navigationParams = {}, headers = {}) => {
-  return await axios[navigationHttpMethod](...navigationParams, headers)
-    .then(response => {
-      return response;
-    }).catch(error => {
+      console.log(error);
       return handleErrorResponse;
     });
 };

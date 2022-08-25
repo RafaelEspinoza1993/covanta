@@ -28,7 +28,7 @@
           >
           </b-form-input>
           <div class="mt-2">
-            <b-button variant="primary" @click="login()">Login</b-button>
+            <b-button variant="primary" @click="login(form)">Login</b-button>
             <b-button variant="danger" @click="onReset" class="m1-2"
               >Reset</b-button
             >
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -49,10 +50,17 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters("login", [
+      "user",
+      "isLoadingLogin",
+    ])
+  },
   methods: {
-    async login() {
-      console.log(this.form);
-    },
+    ...mapActions("login", [
+      "login",
+      "CreateUser",
+    ]),
     onReset() {
       this.form = {
         user: "",

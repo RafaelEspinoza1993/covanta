@@ -1,21 +1,12 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            ok
-        </div>
-        <div class="col-10">
-            HOLA
-        </div>
-    </div>
-  </div>
+  <tableDashboard/>
 </template>
 
 <script>
-
+import tableDashboard from "@/components/dashBoardComponents/tableComponents.vue";
 export default {
     components: {
-      
+      tableDashboard
     },
 
 }

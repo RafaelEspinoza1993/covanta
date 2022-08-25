@@ -5,6 +5,7 @@ import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+import 'animate.css';
 Vue.use(VueSidebarMenu)
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
