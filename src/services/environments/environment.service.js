@@ -1,4 +1,1 @@
-export const environmentService = {
-  
-  production:false,
-}
+export const environmentService = 'http://covantabackend-dev.eba-mjssgccp.us-east-1.elasticbeanstalk.com'

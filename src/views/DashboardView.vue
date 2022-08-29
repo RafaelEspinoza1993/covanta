@@ -1,12 +1,12 @@
 <template>
-  <tableDashboard/>
+  <showResultComponents/>
 </template>
 
 <script>
-import tableDashboard from "@/components/dashBoardComponents/tableComponents.vue";
+import showResultComponents from "@/components/dashBoardComponents/showResultComponents.vue";
 export default {
     components: {
-      tableDashboard
+      showResultComponents
     },
 
 }

@@ -1,31 +1,40 @@
 <template>
   <div id="app">
-    <div class="container-fluid" v-show="Object.keys(user).length !== 0">
+    <div
+      id="Dashboard"
+      class="container-fluid"
+      v-show="Object.keys(user).length !== 0"
+    >
       <div class="row">
-        <div :class="navCSS">
-          <sidebar-menu :menu="menu" @toggle-collapse="onToggleCollapse" />
-        </div>
-        <div :class="headerCSS" id="Header">
-          <HeaderComponents />
-        </div>
-        <div :class="contentCSS" id="Content">
-          <router-view />
-        </div>
+        <sidebar-menu :menu="menu"/>
+        <main id="main">
+          <div  id="Header">
+            <HeaderComponents />
+          </div>
+          <div class="col-12" id="Views">
+            <div class="container">
+              <div class="row"><router-view /></div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
-    <div v-show="Object.keys(user).length === 0">
-      <LoginView />
+    <div v-show="Object.keys(user).length === 0" id="login">
+      <NavBarLoginComponents />
+      <div>
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import HeaderComponents from "@/components/globalComponents/HeaderComponents.vue";
-import LoginView from "@/views/LoginView.vue";
-import { mapGetters } from "vuex";
+import NavBarLoginComponents from "@/components/loginComponents/navbarComponent.vue";
+import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     HeaderComponents,
-    LoginView,
+    NavBarLoginComponents,
   },
   data() {
     return {
@@ -41,24 +50,20 @@ export default {
           icon: "fa fa-user",
         },
       ],
-      contentCSS:
-        "col-12 animate__animated animate__slideInRight animate_timer_content col-10-edit-open",
-      navCSS: "",
-      headerCSS: "col-12 col-12-edit-open",
     };
+  },
+  mounted() {
+    this.getRoutes();
+    this.CheckLogin();
   },
   computed: {
     ...mapGetters("login", ["user", "isLoadingLogin"]),
   },
   methods: {
-    onToggleCollapse(collapsed) {
-      this.contentCSS = collapsed
-        ? "col-12 animate__animated animate__slideInLeft animate_timer_content col-12-edit-close"
-        : "col-12 animate__animated animate__slideInRight animate_timer_content col-12-edit-open";
-      this.headerCSS = collapsed
-        ? "col-12 col-12-edit-close"
-        : "col-12 col-12-edit-open";
-    },
+    ...mapActions("login", ["getRoutes"]),
+    CheckLogin(){
+      Object.keys(this.user).length === 0 ? this.$router.push('/login') : this.$router.push('/')
+    }
   },
 };
 </script>
@@ -71,22 +76,29 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+.row {
+  display: flex;
+  main {
+    flex: 1 1 0;
+    padding: 0;
+    @media (max-width: 1024px) {
+      padding-left: 6rem;
+    }
+  }
+}
+
+.v-sidebar-menu.vsm_expanded,
+.v-sidebar-menu.vsm_collapsed {
+  position: relative;
+  height: 100vh;
+  padding: 0;
+}
+
 .v-sidebar-menu.vsm_expanded {
   width: 8.33333333%;
 }
+
 .v-sidebar-menu.vsm_collapsed {
-}
-#Header.col-12-edit-open {
-  padding-left: 8.33333333%;
-}
-#Header.col-12-edit-close {
-  padding-left: 2.63%;
-}
-#Content.col-12-edit-close {
-  padding-left: 55px;
-}
-#Content.col-12-edit-open {
-  padding-left: 8.33333333%;
 }
 
 .animate__animated.animate__slideInLeft,

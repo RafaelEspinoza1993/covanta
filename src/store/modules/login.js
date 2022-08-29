@@ -1,5 +1,5 @@
-//import { environmentService, postRequestHandler, getRequestHandler } from '@/utils/services';
-import { postRequestHandler } from '@/services/handler/request.handler';
+import { environmentService } from '@/services/environments/environment.service';
+import { postRequestHandler, getRequestHandler } from '@/services/handler/request.handler';
 
 const state = {
   user: {},
@@ -7,6 +7,7 @@ const state = {
   apiUrl: null,
   headers: null,
   headersWithFile: null,
+  routes: null
 },
 
   getters = {
@@ -15,6 +16,7 @@ const state = {
     apiUrl: state => state.apiUrl,
     headers: state => state.headers,
     headersWithFile: state => state.headersWithFile,
+    routes: state => state.routes
   },
 
   mutations = {
@@ -25,20 +27,68 @@ const state = {
     loadingLoginToggle(state) {
       state.isLoadingLogin = !state.isLoadingLogin;
     },
-    setHeaders(state, payload) {
+    setHeaders(state) {
       state.headers = {
-        'Authorization': `Bearer ${payload}`
+        'content-type': 'text/plain'
       };
     },
 
     setFileHeaders(state, payload){
       state.headersWithFile = { 'Authorization': `Bearer ${payload}`,'Content-Type': 'multipart/form-data' };
     },
+
+    setRoutes(state){
+      let validateLogin = state.user.length === 0
+      state.routes= validateLogin ? [
+        {
+          path: '/',
+          name: 'login',
+          component: () => import('@/views/LoginView')
+        },
+        {
+          path: '/signup',
+          name: 'signup',
+          component: () => import('@/components/loginComponents/singUpComponent')
+        },
+        {
+          path: '/forgot-password',
+          name: 'forgot-password',
+          component: () => import('@/components/loginComponents/forgotPasswordComponent')
+        }
+      ] : [
+        {
+          path: '/',
+          name: 'Dashboard',
+          component: () => import('@/views/DashboardView')
+        },
+      ]
+    }
   },
 
   actions = {
-    async login({ state }, payload) {
+    async login({ state, commit }, payload) {
+      commit('setHeaders');
+      commit('setRoutes');
       state.user = payload;
+      await getRequestHandler(`${environmentService}/Historic/FuchoTest`).then(async result => {
+        return result;
+      });
+      /*await postRequestHandler(`${environmentService}/Login`, payload).then(async result => {
+        state.user = result;
+        return result;
+      });*/
+    },
+
+    getRoutes({commit}){
+      commit('setRoutes')
+    },
+
+    async test({commit}){
+      commit('setHeaders');
+      commit('setRoutes')
+      await getRequestHandler(`${environmentService}/FuchoTest`).then(async result => {
+        return result;
+      });
     },
 
     logout() {
