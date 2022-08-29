@@ -6,7 +6,10 @@ const handleErrorResponse = {
   'detail': 'Internal error, check response log.',
 };
 
-export const postRequestHandler = async (url, data, headers = {}) => {
+export const postRequestHandler = async (url, data, headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Content-Type': 'application/json',
+},) => {
   return await axios.post(url, data, headers)
     .then(response => {
       console.log(response);
@@ -18,7 +21,10 @@ export const postRequestHandler = async (url, data, headers = {}) => {
 
 };
 
-export const getRequestHandler = async (url, headers = {}) => {
+export const getRequestHandler = async (url, headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Content-Type': 'application/json',
+}) => {
   return await axios.get(url, headers)
     .then(response => {
       console.log(response);

@@ -1,15 +1,31 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import DashboardView from '@/views/DashboardView'
+
 Vue.use(VueRouter)
 
-const routes = [
+let routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LoginView')
+  },
   {
     path: '/',
     name: 'Dashboard',
-    component: DashboardView
+    component: () => import('@/views/DashboardView')
   },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('@/components/loginComponents/singUpComponent')
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: () => import('@/components/loginComponents/forgotPasswordComponent')
+  }
 ]
+
 
 const router = new VueRouter({
   routes
