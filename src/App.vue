@@ -6,9 +6,9 @@
       v-show="Object.keys(user).length !== 0"
     >
       <div class="row">
-        <sidebar-menu :menu="menu"/>
+        <sidebar-menu :menu="menu" />
         <main id="main">
-          <div  id="Header">
+          <div id="Header">
             <HeaderComponents />
           </div>
           <div class="col-12" id="Views">
@@ -19,10 +19,14 @@
         </main>
       </div>
     </div>
-    <div v-show="Object.keys(user).length === 0" id="login">
-      <NavBarLoginComponents />
-      <div>
-        <router-view />
+    <div class="container-fluid" v-show="Object.keys(user).length === 0">
+      <div class="row" id="login">
+        <div class="col-6 navbar">
+          <NavBarLoginComponents />
+        </div>
+        <div class="col-6 login">
+          <router-view />
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +34,7 @@
 <script>
 import HeaderComponents from "@/components/globalComponents/HeaderComponents.vue";
 import NavBarLoginComponents from "@/components/loginComponents/navbarComponent.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   components: {
     HeaderComponents,
@@ -53,29 +57,53 @@ export default {
     };
   },
   mounted() {
-    this.getRoutes();
-    this.CheckLogin();
+    this.checkUser();
   },
   computed: {
     ...mapGetters("login", ["user", "isLoadingLogin"]),
   },
   methods: {
-    ...mapActions("login", ["getRoutes"]),
-    CheckLogin(){
-      Object.keys(this.user).length === 0 ? this.$router.push('/login') : this.$router.push('/')
-    }
+    checkUser() {
+      Object.keys(this.user).length === 0 ? this.$router.push("/login") : this.$router.push("/");
+    },
   },
 };
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Helvetica";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  input {
+    border-radius: 0;
+    border: 2px solid #e0e0e0;
+  }
+  .btn-primary {
+    background: #1f569f;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 0;
+  }
 }
+
+#login {
+  height: 100vh;
+  .navbar,
+  .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .btn-primary {
+    background: #1f569f;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 0;
+  }
+}
+
 .row {
   display: flex;
   main {

@@ -14,16 +14,6 @@ let routes = [
     name: 'Dashboard',
     component: () => import('@/views/DashboardView')
   },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: () => import('@/components/loginComponents/singUpComponent')
-  },
-  {
-    path: '/forgot-password',
-    name: 'forgot-password',
-    component: () => import('@/components/loginComponents/forgotPasswordComponent')
-  }
 ]
 
 
