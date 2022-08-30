@@ -13,6 +13,7 @@ export const postRequestHandler = async (url, data, headers = {
   return await axios.post(url, data, headers)
     .then(response => {
       console.log(response);
+      return response
     })
     .catch(error => {
       console.log(error);

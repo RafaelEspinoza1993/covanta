@@ -1,84 +1,33 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <b-card
-          style="max-width: 20rem"
-          id="Login"
-          border-variant="primary"
-          header="Login"
-          header-bg-variant="primary"
-          header-text-variant="white"
-        >
-          <b-form-input
-            id="username"
-            v-model="form.email"
-            required
-            placeholder="Enter username"
-            type="email"
-          >
-          </b-form-input>
-          <b-form-input
-            class="mt-2"
-            id="password"
-            type="password"
-            v-model="form.password"
-            required
-            placeholder="Enter password"
-          >
-          </b-form-input>
-
-          <div class="mt-2">
-            <b-button variant="primary" @click="CheckLogin(form)">Login</b-button>
-            <b-button variant="danger" @click="onReset" class="m1-2"
-              >Reset</b-button
-            >
-            <p class="forgot-password text-right mt-2 mb-4">
-              <router-link to="/forgot-password">Forgot password ?</router-link>
-            </p>
-          </div>
-        </b-card>
-      </div>
-    </div>
+  <div>
+    <login />
+    <b-modal id="singUp" size="xl">
+      <singUp />
+    </b-modal>
+    <b-modal id="forgotPassword" size="xl">
+      <forgotPassword />
+    </b-modal>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import login from "@/components/loginComponents/loginComponent.vue";
+import singUp from "@/components/loginComponents/singUpComponent.vue";
+import forgotPassword from "@/components/loginComponents/forgotPasswordComponent.vue";
 export default {
+  components: {
+    login,
+    singUp,
+    forgotPassword,
+  },
   data() {
     return {
-      form: {
-        email: "",
-        password: "",
-      },
     };
-  },
-  computed: {
-    ...mapGetters("login", ["user", "isLoadingLogin"]),
-  },
-  methods: {
-    ...mapActions("login", ["login", "CreateUser"]),
-    CheckLogin(payload){
-      this.login(payload);
-      console.log(this.user);
-      this.$router.replace({ path: '/' })
-    },
-    onReset() {
-      this.form = {
-        user: "",
-        password: "",
-      };
-    },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 #login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 </style>
