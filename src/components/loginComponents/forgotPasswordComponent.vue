@@ -48,8 +48,7 @@ export default {
     };
   },
   methods: {
-    sendForm(payload) {
-      console.log(payload);
+    sendForm() {
       this.endResetPass = true;
       //this.closeModal();
     },

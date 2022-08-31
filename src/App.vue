@@ -90,7 +90,6 @@ export default {
         : this.$router.push("/");
     },
     onToggleCollapse(collapsed) {
-      console.log(collapsed);
       this.logo = !collapsed;
       this.buttonNav = !collapsed ? "fa fa-plus" : "fa fa-minus";
     },

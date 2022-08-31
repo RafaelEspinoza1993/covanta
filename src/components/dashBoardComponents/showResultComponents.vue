@@ -26,6 +26,7 @@
               <b-form-input v-model="tons" type="number"></b-form-input>
             </div>
             <div class="col-3">
+              <p class="font-weight-bold text-left mb-0">&nbsp;</p>
               <b-button variant="primary" @click="Calculate"
                 >Calculate</b-button
               >
@@ -72,6 +73,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 import TableDataShow from "@/components/globalComponents/TableDataShowComponents.vue";
 export default {
   name: "GoogleMap",
@@ -112,7 +114,7 @@ export default {
       };
       this.payload = [];
       this.AllFacility.competitionFacility.forEach((element, index) => {
-        if (index < 5) {
+        if (index < 2) {
           let destinations = {
             lat: element.latitude,
             lng: element.longitude,
@@ -126,13 +128,6 @@ export default {
         this.payload.forEach((element, index) => {
           this.payload[index].tons = this.tons;
         });
-        console.log(
-          this.payload.length,
-          "front",
-          this.payload,
-          this.payload[0],
-          this.payload.length
-        );
         this.SendCalculate(this.payload);
         this.currentPlace = null;
         this.resultShow = true;

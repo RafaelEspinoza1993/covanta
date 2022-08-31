@@ -9,10 +9,8 @@ const handleErrorResponse = {
 export const postRequestHandler = async (url, data, headers = {
 
 },) => {
-  console.log(data);
   return await axios.post(url, data, headers)
     .then(response => {
-      console.log(response);
       return response
     })
     .catch(error => {

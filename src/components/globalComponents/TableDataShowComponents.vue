@@ -15,18 +15,17 @@
     </thead>
     <tbody>
       <tr v-for="(item, index) in ShowTableSelected(type)" :key="index">
-        <td>Nombre</td>
+        <td>{{ item.name }}</td>
         <td>{{ item.costPerMile }}</td>
-        <td>facility pedir dexter</td>
+        <td>{{ item.facility }}</td>
         <td>{{ item.totalTransportationCost }}</td>
-        <td>aaaa</td>
+        <td>{{ item.fees }}</td>
         <td>{{ item.disposalCostWithEis }}</td>
+        <td>{{ item.tfd }}</td>
         <td>
-          suma de Fees totalTransportationCost disposalCostWithEis pedir a
-          dexter
+          {{ item.witnessFee }}
         </td>
-        <td>pedir a dexter de la tabla de los facility</td>
-        <td>suma de los 4 valores (trans, fees, disposal, witness)</td>
+        <td>{{ item.tfdw }}</td>
       </tr>
     </tbody>
   </table>
@@ -41,7 +40,7 @@ export default {
   },
   methods: {
     ShowTableSelected(payload) {
-      let response = [];
+      let response;
       switch (payload) {
         case 2:
           response = this.CalculateResult.covantaPriceList;
@@ -51,11 +50,11 @@ export default {
           break;
 
         default:
-          response.push(this.CalculateResult.competionPriceList);
-          response.push(this.CalculateResult.covantaPriceList);
+          response = this.CalculateResult.competionPriceList.concat(
+            this.CalculateResult.covantaPriceList
+          );
           break;
       }
-      console.log(response);
       return response;
     },
   },
