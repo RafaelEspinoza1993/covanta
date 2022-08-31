@@ -1,12 +1,31 @@
 <template>
   <div id="app">
-    <div
-      id="Dashboard"
-      class="container-fluid"
-      v-show="Object.keys(user).length !== 0"
-    >
-      <div class="row">
-        <sidebar-menu :menu="menu" />
+    <div class="container-fluid" v-if="Object.keys(user).length === 0">
+      <div class="row" id="login">
+        <div class="col-6 navbar">
+          <NavBarLoginComponents />
+        </div>
+        <div class="col-6 login">
+          <router-view />
+        </div>
+      </div>
+    </div>
+    <div id="Dashboard" class="container-fluid" v-else>
+      <div class="row containerWeb">
+        <sidebar-menu :menu="menu" @toggle-collapse="onToggleCollapse">
+          <div slot="header">
+            <img
+              src="@/assets/login/logo.svg"
+              alt=""
+              class="mb-2 logo"
+              v-if="logo"
+            />
+            <div class="logo" v-else>
+              <i class="fa fa-home"></i>
+            </div>
+          </div>
+          <i :class="buttonNav" aria-hidden="true" slot="toggle-icon"></i>
+        </sidebar-menu>
         <main id="main">
           <div id="Header">
             <HeaderComponents />
@@ -17,16 +36,6 @@
             </div>
           </div>
         </main>
-      </div>
-    </div>
-    <div class="container-fluid" v-show="Object.keys(user).length === 0">
-      <div class="row" id="login">
-        <div class="col-6 navbar">
-          <NavBarLoginComponents />
-        </div>
-        <div class="col-6 login">
-          <router-view />
-        </div>
       </div>
     </div>
   </div>
@@ -44,16 +53,28 @@ export default {
     return {
       menu: [
         {
-          header: true,
-          title: "Main Navigation",
-          hiddenOnCollapse: true,
+          href: "/",
+          title: "Search",
+          icon: "lupa",
         },
         {
-          href: "/",
-          title: "Dashboard",
-          icon: "fa fa-user",
+          href: "/Facilities",
+          title: "Facilities",
+          icon: "fabrica",
+        },
+        {
+          href: "/Assumptions",
+          title: "Assumptions",
+          icon: "assumptions",
+        },
+        {
+          href: "/HistoricDeals",
+          title: "Historic deals",
+          icon: "Historicdeals",
         },
       ],
+      buttonNav: "fa fa-plus",
+      logo: true,
     };
   },
   mounted() {
@@ -64,7 +85,14 @@ export default {
   },
   methods: {
     checkUser() {
-      Object.keys(this.user).length === 0 ? this.$router.push("/login") : this.$router.push("/");
+      Object.keys(this.user).length === 0
+        ? this.$router.push("/login")
+        : this.$router.push("/");
+    },
+    onToggleCollapse(collapsed) {
+      console.log(collapsed);
+      this.logo = !collapsed;
+      this.buttonNav = !collapsed ? "fa fa-plus" : "fa fa-minus";
     },
   },
 };
@@ -77,7 +105,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  input {
+  input,
+  select {
     border-radius: 0;
     border: 2px solid #e0e0e0;
   }
@@ -85,6 +114,13 @@ export default {
     background: #1f569f;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
     border-radius: 0;
+  }
+  .vsm--header {
+    background: url("@/assets/login/logo.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 12vh;
   }
 }
 
@@ -104,15 +140,24 @@ export default {
   }
 }
 
-.row {
+.containerWeb {
   display: flex;
   main {
     flex: 1 1 0;
     padding: 0;
+    background: #f3f2f5;
     @media (max-width: 1024px) {
       padding-left: 6rem;
     }
   }
+}
+.v-sidebar-menu .vsm--link_hover,
+.v-sidebar-menu .vsm--link:hover {
+  background-color: #01492c;
+}
+
+a.router-link-exact-active.router-link-active.vsm--link.vsm--link_level-1.vsm--link_active.vsm--link_exact-active {
+  box-shadow: 3px 0px 0px 0px #ffffff inset;
 }
 
 .v-sidebar-menu.vsm_expanded,
@@ -120,13 +165,50 @@ export default {
   position: relative;
   height: 100vh;
   padding: 0;
+  background: linear-gradient(180deg, #045333 0%, #4b854e 100%);
 }
 
 .v-sidebar-menu.vsm_expanded {
-  width: 8.33333333%;
+  width: 14%;
+  .logo {
+    width: 100%;
+    background: #01492c;
+    padding: 2rem;
+  }
+}
+button.vsm--toggle-btn.vsm--toggle-btn_slot {
+  background: #01492c;
+}
+
+.fa-home:before {
+  color: #ffffff;
 }
 
 .v-sidebar-menu.vsm_collapsed {
+  .logo {
+    width: 100%;
+    background: #01492c;
+    padding: 1rem;
+  }
+}
+.v-sidebar-menu .vsm--link_level-1 .vsm--icon {
+  display: flex;
+  justify-content: center;
+  background-color: transparent !important;
+}
+.v-sidebar-menu {
+  .lupa:before {
+    content: url("@/assets/icons/lupa.svg");
+  }
+  .fabrica:before {
+    content: url("@/assets/icons/fabrica.svg");
+  }
+  .assumptions:before {
+    content: url("@/assets/icons/assumptions.svg");
+  }
+  .Historicdeals:before {
+    content: url("@/assets/icons/Historicdeals.svg");
+  }
 }
 
 .animate__animated.animate__slideInLeft,

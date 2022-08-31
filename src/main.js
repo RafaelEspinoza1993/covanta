@@ -6,6 +6,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import 'animate.css';
+import * as VueGoogleMaps from "vue2-google-maps";
 Vue.use(VueSidebarMenu)
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
@@ -17,6 +18,13 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyB-vnWoTsVcGRl3thi3J_DNBkX1UvRm5O8",
+    libraries: "places" // necessary for places input
+  }
+});
 
 new Vue({
   router,

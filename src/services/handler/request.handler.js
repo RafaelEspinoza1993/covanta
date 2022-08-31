@@ -7,9 +7,9 @@ const handleErrorResponse = {
 };
 
 export const postRequestHandler = async (url, data, headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json',
+
 },) => {
+  console.log(data);
   return await axios.post(url, data, headers)
     .then(response => {
       console.log(response);
@@ -23,13 +23,11 @@ export const postRequestHandler = async (url, data, headers = {
 };
 
 export const getRequestHandler = async (url, headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json',
+
 }) => {
   return await axios.get(url, headers)
     .then(response => {
-      console.log(response);
-
+      return response
     }).catch(error => {
       console.log(error);
       return handleErrorResponse;

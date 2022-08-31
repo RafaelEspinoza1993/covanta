@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="info" class="mb-4 px-4">
+  <b-navbar toggleable="lg"  type="light" variant="light" class="mb-4 px-4">
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
