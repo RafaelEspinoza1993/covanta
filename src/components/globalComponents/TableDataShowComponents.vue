@@ -2,6 +2,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
+        <th></th>
         <th scope="col">Company</th>
         <th scope="col">Mileage</th>
         <th scope="col">Facility</th>
@@ -11,10 +12,12 @@
         <th scope="col">TF&D</th>
         <th scope="col">Witness</th>
         <th scope="col">TFD&W</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(item, index) in ShowTableSelected(type)" :key="index">
+        <td>a</td>
         <td>{{ item.name }}</td>
         <td>{{ item.costPerMile }}</td>
         <td>{{ item.facility }}</td>
@@ -26,6 +29,7 @@
           {{ item.witnessFee }}
         </td>
         <td>{{ item.tfdw }}</td>
+        <td>a</td>
       </tr>
     </tbody>
   </table>

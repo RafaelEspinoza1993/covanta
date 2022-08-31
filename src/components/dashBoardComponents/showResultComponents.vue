@@ -35,28 +35,41 @@
         </div>
       </div>
       <div v-if="resultShow">
-        <div class="card">
-          <b-tabs content-class="mt-3">
-            <b-tab title="All results" active>
-              <TableDataShow type="1" />
-            </b-tab>
-            <b-tab
-              title="Covanta"
-              :disabled="
-                CalculateResult.covantaPriceList.length > 0 ? false : true
-              "
-            >
-              <TableDataShow type="2"
-            /></b-tab>
-            <b-tab
-              title="Competition"
-              :disabled="
-                CalculateResult.competionPriceList.length > 0 ? false : true
-              "
-            >
-              <TableDataShow type="3"
-            /></b-tab>
-          </b-tabs>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-3">
+              <div class="card">
+                <BarShow/>
+              </div>
+            </div>
+            <div class="col-9">
+              <div class="card">
+                <b-tabs content-class="mt-3">
+                  <b-tab title="All results" active>
+                    <TableDataShow type="1" />
+                  </b-tab>
+                  <b-tab
+                    title="Covanta"
+                    :disabled="
+                      CalculateResult.covantaPriceList.length > 0 ? false : true
+                    "
+                  >
+                    <TableDataShow type="2"
+                  /></b-tab>
+                  <b-tab
+                    title="Competition"
+                    :disabled="
+                      CalculateResult.competionPriceList.length > 0
+                        ? false
+                        : true
+                    "
+                  >
+                    <TableDataShow type="3"
+                  /></b-tab>
+                </b-tabs>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -75,10 +88,12 @@
 import { mapActions, mapGetters } from "vuex";
 
 import TableDataShow from "@/components/globalComponents/TableDataShowComponents.vue";
+import BarShow from "@/components/globalComponents/barComponents.vue"
 export default {
   name: "GoogleMap",
   components: {
     TableDataShow,
+    BarShow
   },
   data() {
     return {
@@ -144,12 +159,13 @@ export default {
           origins: [p1],
           destinations: [p2],
           travelMode: google.maps.TravelMode.DRIVING,
-          unitSystem: google.maps.UnitSystem.METRIC,
+          unitSystem: google.maps.UnitSystem.IMPERIAL,
           avoidHighways: false,
           avoidTolls: false,
         },
         (response) => {
           this.payload.push({
+            //distance: response.rows[0].elements[0].distance.text,
             distance: response.rows[0].elements[0].distance.value,
             tons: this.tons,
             facility: facility,
