@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="showResultComponents">
     <div>
       <p class="h2 font-weight-bold text-left mb-3">Calculate a trip</p>
       <div class="card mb-5">
@@ -38,13 +38,68 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-3">
+              <p class="font-weight-bold text-left mb-3">Best offers</p>
               <div class="card">
-                <BarShow/>
+                <BarShow />
               </div>
             </div>
             <div class="col-9">
+              <div class="mb-3">
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <p class="font-weight-bold text-left mb-0">
+                      Show results as
+                    </p>
+                  </div>
+                  <div class="col-1">
+                    <b-button
+                      class="font-weight-bold"
+                      :variant="Tableshow ? 'primary' : 'transparentButton'"
+                      @click="ShowResultBox(1)"
+                      >Table</b-button
+                    >
+                  </div>
+                  <div class="col-1">
+                    <b-button
+                      class="font-weight-bold"
+                      :variant="Chartshow ? 'primary' : 'transparentButton'"
+                      @click="ShowResultBox(2)"
+                      >Chart</b-button
+                    >
+                  </div>
+                  <div class="col-1">
+                    <b-button
+                      class="font-weight-bold"
+                      :variant="Mapshow ? 'primary' : 'transparentButton'"
+                      @click="ShowResultBox(3)"
+                      >Map</b-button
+                    >
+                  </div>
+                </div>
+              </div>
               <div class="card">
-                <b-tabs content-class="mt-3">
+                <gmap-map
+                  :center="center"
+                  :zoom="12"
+                  style="width: 100%; height: 400px"
+                  v-show="Mapshow"
+                >
+                  <gmap-marker
+                    :key="index"
+                    v-for="(m, index) in markers"
+                    :position="m.position"
+                    @click="center = m.position"
+                  >
+                    <gmap-info-window
+                      :opened="true"
+                      :options="{
+                        pixelOffset: { width: 0, height: 0 },
+                        content: `<p>${m.address}</p><p>Destination Address <br>${m.position.lat} , ${m.position.lng}</p><p>Name <br>${m.name}</p>`,
+                      }"
+                    ></gmap-info-window>
+                  </gmap-marker>
+                </gmap-map>
+                <b-tabs content-class="mt-3 tabsShow" v-show="Tableshow">
                   <b-tab title="All results" active>
                     <TableDataShow type="1" />
                   </b-tab>
@@ -73,27 +128,22 @@
         </div>
       </div>
     </div>
-    <!--<gmap-map :center="center" :zoom="12" style="width: 100%; height: 400px">
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        @click="center = m.position"
-      ></gmap-marker>
-    </gmap-map>-->
   </div>
 </template>
-
 <script>
+/* 
+azul covanta
+rojo competencia
+*/
 import { mapActions, mapGetters } from "vuex";
 
 import TableDataShow from "@/components/globalComponents/TableDataShowComponents.vue";
-import BarShow from "@/components/globalComponents/barComponents.vue"
+import BarShow from "@/components/globalComponents/barComponents.vue";
 export default {
   name: "GoogleMap",
   components: {
     TableDataShow,
-    BarShow
+    BarShow,
   },
   data() {
     return {
@@ -109,6 +159,11 @@ export default {
       tons: null,
       payload: [],
       resultShow: false,
+      markers: [],
+      center: {},
+      Tableshow: true,
+      Chartshow: false,
+      Mapshow: false,
     };
   },
   computed: {
@@ -120,20 +175,38 @@ export default {
 
   methods: {
     ...mapActions("showresult", ["getAllFacility", "SendCalculate"]),
+    ShowResultBox(status) {
+      this.Tableshow = status === 1 ? true : false;
+      this.Chartshow = status === 2 ? true : false;
+      this.Mapshow = status === 3 ? true : false;
+    },
     // receives a place object via the autocomplete component
     setPlace(place) {
       this.currentPlace = place;
+      this.markers = [];
+      this.center = {};
       const origins = {
         lat: this.currentPlace.geometry.location.lat(),
         lng: this.currentPlace.geometry.location.lng(),
       };
+      this.center = origins;
       this.payload = [];
+      this.markers.push({
+        position: origins,
+        address: this.currentPlace.name,
+        name: "Search",
+      });
       this.AllFacility.competitionFacility.forEach((element, index) => {
-        if (index < 2) {
+        if (index < 5) {
           let destinations = {
             lat: element.latitude,
             lng: element.longitude,
           };
+          this.markers.push({
+            position: destinations,
+            address: element.address,
+            name: element.name,
+          });
           this.calculateDistances(origins, destinations, element);
         }
       });
@@ -177,8 +250,34 @@ export default {
 };
 </script>
 <style lang="scss">
-.rowShowResult {
-  padding: 20px;
-  align-items: center;
+#showResultComponents {
+  .card {
+    background: #ffffff;
+    box-shadow: 4px 4px 40px rgba(130, 136, 139, 0.1);
+    border-radius: 0;
+  }
+  nav.nav-tabs{
+    border: none;
+  }
+  .nav-link.active {
+    border-bottom: 2px solid #03613b;
+    color: #03613b;
+  }
+  .nav-link.disabled{
+    color: #82888b;
+  }
+  .nav-link {
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    color: #000000;
+  }
+  .rowShowResult {
+    padding: 20px;
+    align-items: center;
+  }
+  .btn-transparentButton {
+    color: #1f569f;
+  }
 }
 </style>

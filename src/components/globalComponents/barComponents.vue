@@ -1,5 +1,6 @@
 <template>
-  <Bar
+  <img src="@/assets/demo.png" alt="" class="mb-0" height="500px"/>
+  <!--<Bar
     :chart-options="chartOptions"
     :chart-data="ShowData()"
     :chart-id="chartId"
@@ -9,10 +10,10 @@
     :styles="styles"
     :width="width"
     :height="height"
-  />
+  />-->
 </template>
   
-  <script>
+ <!--<script>
 import { Bar } from "vue-chartjs/legacy";
 import { mapGetters } from "vuex";
 import {
@@ -71,12 +72,6 @@ export default {
   },
   data() {
     return {
-      chartData: {
-        labels: ["January", "February", "March"],
-        datasets: [
-          { label: "Data One", backgroundColor: "#f87979", data: [40, 20, 12] },
-        ],
-      },
       chartOptions: {
         responsive: true,
       },
@@ -87,15 +82,19 @@ export default {
   },
   methods: {
     ShowData() {
-        console.log(this.CalculateResult);
+      let label = [];
+      label.push(this.CalculateResult.competionPriceList[0].facility);
+      label.push(this.CalculateResult.competionPriceList[1].facility);
       return {
-        labels: ["January", "February", "March"],
+        labels: [label],
         datasets: [
-          { label: "Data One", backgroundColor: "#f87979", data: [40, 20, 12] },
+          { label: label[0], backgroundColor: "#f87979", data: [40, 20] },
+          { label: label[1], backgroundColor: "#f87979", data: [40, 20] },
         ],
       };
     },
   },
 };
 </script>
+-->
   

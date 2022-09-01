@@ -31,9 +31,7 @@
             <HeaderComponents />
           </div>
           <div class="col-12" id="Views">
-            <div class="container">
-              <div class="row"><router-view /></div>
-            </div>
+            <router-view />
           </div>
         </main>
       </div>
@@ -105,7 +103,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   input,
-  select {
+  select,
+  .custom-radio .custom-control-label::before {
     border-radius: 0;
     border: 2px solid #e0e0e0;
   }
